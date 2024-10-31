@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct FoodMonsterShakerApp: App {
-    @StateObject private var viewModel = DiningHallViewModel() // Shared ViewModel
+    @StateObject private var viewModel = DiningHallViewModel()
 
     var body: some Scene {
         WindowGroup {

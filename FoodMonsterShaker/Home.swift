@@ -10,33 +10,46 @@ import SwiftUI
 
 struct Home: View {
     @EnvironmentObject var viewModel: DiningHallViewModel
-
+    
     var body: some View {
         NavigationView {
-            List(viewModel.diningHalls) { hall in
-                NavigationLink(destination: DiningHallView(diningHall: hall)) {
+            List(viewModel.diningHalls.sorted { $0.isCollected && !$1.isCollected}) { diningHall in
+                NavigationLink(destination: DiningHallView(diningHall: diningHall)) {
                     HStack {
-                        Text(hall.name)
+                        Text(diningHall.name)
                             .font(.headline)
                         Spacer()
-                        // Circle indicator
                         Circle()
-                            .fill(hall.isCollected ? Color.green : Color.red)
+                            .fill(diningHall.isCollected ? Color.green : Color.red)
                             .frame(width: 10, height: 10)
-                        // Checkmark for collected halls
-                        if hall.isCollected {
+                        if diningHall.isCollected {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.green)
+    
                         }
                     }
                 }
             }
             .navigationTitle("Food Monster Shaker")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: MapView()) {
+                        VStack {
+                            Image(systemName: "map")
+                                .imageScale(.large)
+                                .foregroundStyle(.green)
+                            Text("Map")
+                                .font(.caption)
+                                .foregroundStyle(.green)
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
 #Preview {
     Home()
-        .environmentObject(DiningHallViewModel()) // Mock ViewModel for preview
+        .environmentObject(DiningHallViewModel())
 }

@@ -12,6 +12,7 @@ class MotionManager: ObservableObject {
     
     private let motionManager = CMMotionManager()
     @Published var isShaking = false
+    @Published var magnitude = 0.0
     
     init() {
         startAccelerometerUpdates()
@@ -33,10 +34,10 @@ class MotionManager: ObservableObject {
             guard let data = data else { return }
             
             let acceleration = data.acceleration
-            let magnitude = sqrt(pow(acceleration.x, 2) + pow(acceleration.y, 2) + pow(acceleration.z, 2))
+            self.magnitude = sqrt(pow(acceleration.x, 2) + pow(acceleration.y, 2) + pow(acceleration.z, 2))
             
             // threshold for shaking gesture
-            if magnitude > 2.0 {
+            if self.magnitude > 4.0 {
                 self.isShaking.toggle()
             } else {
                 self.isShaking = false

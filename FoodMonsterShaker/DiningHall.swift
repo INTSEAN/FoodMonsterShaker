@@ -12,7 +12,7 @@
 import Foundation
 import CoreLocation
 
-struct DiningHall: Identifiable {
+struct DiningHall: Identifiable, Hashable {
     var id = UUID() // Automatically generated ID
     var name: String
     var location: CLLocation

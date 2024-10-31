@@ -25,10 +25,9 @@ class DiningHallViewModel: ObservableObject {
         DiningHall(name: "Lauder House", location: CLLocation(latitude: 39.95382, longitude: -75.19108)),
         DiningHall(name: "McClelland (now Penn Dining Sushi Spot)", location: CLLocation(latitude: 39.95107, longitude: -75.19839)),
         DiningHall(name: "Pret a Manger (Locust Walk)", location: CLLocation(latitude: 39.95263, longitude: -75.19848)),
-        DiningHall(name: "Quaker Kitchen", location: CLLocation(latitude: 39.95354, longitude: -75.20198))
+        DiningHall(name: "Quaker Kitchen", location: CLLocation(latitude: 39.95354, longitude: -75.20198)),
     ]
     
-    // Checks if a dining hall has been collected
     func isCollected(_ hall: DiningHall) -> Bool {
         return hall.isCollected
     }
