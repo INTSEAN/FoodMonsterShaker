@@ -57,23 +57,23 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     // CLLocation Manager Delegate Methods
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        self.authorizationStatus = manager.authorizationStatus
-        switch self.authorizationStatus {
-        case .authorizedWhenInUse, .authorizedAlways:
-            if CLLocationManager.locationServicesEnabled() {
-                self.startUpdatingLocation()
-            } else {
-                self.alertMessage = "Location services are disabled."
+        DispatchQueue.main.async { // Ensure UI updates are on the main thread
+            self.authorizationStatus = manager.authorizationStatus
+            switch self.authorizationStatus {
+            case .authorizedWhenInUse, .authorizedAlways:
+                DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) { // Start location updates on a background thread with a small delay
+                    self.startUpdatingLocation()
+                }
+            case .denied, .restricted:
+                // Show an alert on the main thread to update UI smoothly
+                self.alertMessage = "Please enable location in settings"
                 self.showAlert = true
+            default:
+                break
             }
-        case .denied, .restricted:
-            /// We want to show the Permission View Here?
-            self.alertMessage = "Please enable location in settings"
-            self.showAlert = true
-        default:
-            break
         }
     }
+
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 //        if let location = locations.last {
